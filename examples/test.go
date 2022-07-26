@@ -10,8 +10,11 @@ func main() {
 
 	server := dexterity.Dexterity()
 
-	server.Get("/", func() {
-		fmt.Print("GET request on /")
+	server.Get("/test1", func() {
+		fmt.Print("GET request on /test1\n")
+	})
+	server.Get("/test2", func() {
+		fmt.Print("GET request on /test2\n")
 	})
 
 	server.Listen(PORT, func() {
