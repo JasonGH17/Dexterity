@@ -15,7 +15,7 @@ func main() {
 	})
 	server.Get("/test2", func(req dexterity.Request, res dexterity.Response) {
 		fmt.Print("GET request on /test2\n")
-		fmt.Print(req)
+		res.SendFile("test.html")
 	})
 
 	server.Listen(PORT, func() {

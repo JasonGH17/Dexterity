@@ -2,7 +2,10 @@ package dexterity
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 )
 
 type Request struct {
@@ -10,6 +13,19 @@ type Request struct {
 	params []string
 }
 type Response struct {
+	rawRes http.ResponseWriter
+}
+
+func (res *Response) SendFile(path string) {
+	filepath, err := filepath.Abs(path)
+	file, _err := os.ReadFile(filepath)
+	if err != nil && _err != nil {
+		log.Printf("ERROR: %v", err)
+	}
+
+	fmt.Print(file)
+
+	res.rawRes.Write(file)
 }
 
 type Handler struct {
