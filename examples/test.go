@@ -12,6 +12,7 @@ func main() {
 
 	server.Get("/test1", func(req dexterity.Request, res dexterity.Response) {
 		fmt.Print("GET request on /test1\n")
+		res.Send("Send test")
 	})
 	server.Get("/test2", func(req dexterity.Request, res dexterity.Response) {
 		fmt.Print("GET request on /test2\n")

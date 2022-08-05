@@ -23,9 +23,11 @@ func (res *Response) SendFile(path string) {
 		log.Printf("ERROR: %v", err)
 	}
 
-	fmt.Print(file)
-
 	res.rawRes.Write(file)
+}
+
+func (res *Response) Send(content string) {
+	res.rawRes.Write([]byte(content))
 }
 
 type Handler struct {
@@ -45,7 +47,7 @@ func (server *Server) Listen(port int, callback func()) {
 			"body",
 			[]string{""},
 		}
-		Dres := Response{}
+		Dres := Response{res}
 
 		for _, handler := range server.handlers {
 			if (req.URL.String() == handler.path && req.Method == handler.method) || handler.method == "MIDDLEWARE" {
