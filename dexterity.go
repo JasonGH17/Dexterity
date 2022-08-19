@@ -70,7 +70,7 @@ func (server *Server) Get(path string, handler func(req Request, res Response)) 
 
 	server.handlers = append(server.handlers, _handler)
 }
-func (server *Server) POST(path string, handler func(Request, Response)) {
+func (server *Server) Post(path string, handler func(Request, Response)) {
 	_handler := Handler{
 		"POST",
 		path,
@@ -78,6 +78,17 @@ func (server *Server) POST(path string, handler func(Request, Response)) {
 	}
 
 	server.handlers = append(server.handlers, _handler)
+}
+
+func (server *Server) Use(handler func(Request, Response)) {
+	_handler := Handler{
+		"MIDDLEWARE",
+		"",
+		handler,
+	}
+
+	server.handlers = append(server.handlers, _handler)
+	fmt.Printf("%#v\n", server.handlers)
 }
 
 func Dexterity() Server {

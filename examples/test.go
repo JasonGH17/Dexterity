@@ -19,6 +19,10 @@ func main() {
 		res.SendFile("test.html")
 	})
 
+	server.Use(func(req dexterity.Request, res dexterity.Response) {
+		fmt.Print("Middleware test\n")
+	})
+
 	server.Listen(PORT, func() {
 		fmt.Printf("Dexterity listening on port %d", PORT)
 	})
