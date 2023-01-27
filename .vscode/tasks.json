@@ -1,0 +1,41 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Build Library",
+			"command": "make",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Build & Run Example1 Executable",
+			"command": "make",
+			"args": [
+				"example1"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/examples"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"dependsOn": [
+				"Build Library"
+			]
+		}
+	]
+}
