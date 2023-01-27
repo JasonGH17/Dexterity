@@ -2,7 +2,7 @@
 
 int main()
 {
-    test();
+    Dexterity::Application app = Dexterity::Application();
 
     return 0;
 }

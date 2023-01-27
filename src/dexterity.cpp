@@ -1,7 +1,11 @@
-#include <stdio.h>
 #include "dexterity.h"
 
-void test()
+namespace Dexterity
 {
-    printf("Test\n");
+    Application::Application() : m_tcp(Server::TCPServer("0.0.0.0", 8000))
+    {
+        m_tcp.start();
+    };
+
+    Application::~Application(){};
 }
