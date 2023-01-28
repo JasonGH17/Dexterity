@@ -76,9 +76,7 @@ namespace Dexterity::Server
             fprintf(stderr, "[TCP Server] Something went wrong while recieving a request...\n");
         }
 
-        printf("REQ: %s\n", buff);
-
-        respond();
+        respond(buff);
 
         int bytesSent;
         long totalBytesSent = 0;

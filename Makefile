@@ -7,5 +7,5 @@ bin/dexterity.o: src/dexterity.cpp
 bin/tcp_server.o: src/server/tcp_server_win32.cpp
 	g++ -Wall -g -o bin/tcp_server.o -c src/server/tcp_server_win32.cpp
 
-bin/http_server.o: src/server/http_server.cpp
+bin/http_server.o: src/server/http_server.cpp src/server/util/http_request.h src/server/util/http_response.h src/server/util/http_header.h
 	g++ -Wall -g -o bin/http_server.o -c src/server/http_server.cpp

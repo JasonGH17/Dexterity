@@ -1,6 +1,7 @@
 #include "http_server.h"
 
 #include "util/http_header.h"
+#include "util/http_request.h"
 #include "util/http_response.h"
 
 namespace Dexterity::Server
@@ -11,16 +12,35 @@ namespace Dexterity::Server
     }
     HTTPServer::~HTTPServer() {}
 
-    void HTTPServer::respond()
+    void HTTPServer::respond(std::string request)
     {
-        std::vector<HTTPHeader> headers;
+        HTTPRequest req = HTTPRequest::deserialize(request);
+
+        std::vector<HTTPHeader>
+            headers;
         headers.push_back({"Content-Type", "text/html"});
-        headers.push_back({"Content-Length", "21"});
+
+        char *msg;
+        if (req.url == "/")
+        {
+            headers.push_back({"Content-Length", "24"});
+            msg = "<h1>C++ HTTP Server</h1>";
+        }
+        else if (req.url == "/hello")
+        {
+            headers.push_back({"Content-Length", "17"});
+            msg = "<h1>Hello :)</h1>";
+        }
+        else
+        {
+            headers.push_back({"Content-Length", "22"});
+            msg = "<h1>Invalid route</h1>";
+        }
 
         HTTPResponse res = HTTPResponse{
             200,
             headers,
-            "<h1>Hello world!</h1>"};
+            msg};
 
         setServerMessage(res.serialize());
     }

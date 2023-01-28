@@ -10,6 +10,6 @@ namespace Dexterity::Server
         HTTPServer(const char *hostname, int port);
         ~HTTPServer();
 
-        virtual void respond();
+        virtual void respond(std::string request);
     };
 } // namespace Dexterity::Server

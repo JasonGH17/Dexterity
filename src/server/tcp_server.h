@@ -24,7 +24,7 @@ namespace Dexterity::Server
 
     private:
         void acceptConnection();
-        virtual void respond() = 0;
+        virtual void respond(std::string request) = 0;
 
     private:
         const char *m_hostname;
