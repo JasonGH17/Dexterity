@@ -3,8 +3,9 @@
 #ifdef _WIN32
 #include <winsock2.h>
 #else
-#include <Sys/socket>
-#include <Arpa/inet>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 #endif
 
 #include <string>
@@ -41,6 +42,8 @@ namespace Dexterity::Server
         SOCKET m_clientSocket;
 #else
         // Linux members
+        int m_socket;
+        int m_clientSocket;
 #endif
     };
 } // namespace Dexterity::Server

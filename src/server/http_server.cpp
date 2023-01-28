@@ -20,7 +20,7 @@ namespace Dexterity::Server
             headers;
         headers.push_back({"Content-Type", "text/html"});
 
-        char *msg;
+        std::string msg;
         if (req.url == "/")
         {
             headers.push_back({"Content-Length", "24"});
