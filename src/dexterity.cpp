@@ -2,10 +2,7 @@
 
 namespace Dexterity
 {
-    Application::Application() : m_tcp(Server::TCPServer("0.0.0.0", 8000))
-    {
-        m_tcp.start();
-    };
+    Application::Application() : m_http(Server::HTTPServer("0.0.0.0", 8000)){};
 
     Application::~Application(){};
 }

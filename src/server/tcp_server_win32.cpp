@@ -56,6 +56,11 @@ namespace Dexterity::Server
         }
     }
 
+    void TCPServer::setServerMessage(std::string msg)
+    {
+        m_serverMsg = msg;
+    }
+
     void TCPServer::acceptConnection()
     {
         m_clientSocket = accept(m_socket, (sockaddr *)&m_socketAddr, &m_socketAddrLen);
@@ -71,19 +76,21 @@ namespace Dexterity::Server
             fprintf(stderr, "[TCP Server] Something went wrong while recieving a request...\n");
         }
 
+        printf("REQ: %s\n", buff);
+
+        respond();
+
         int bytesSent;
         long totalBytesSent = 0;
-        while (totalBytesSent < m_serverMsgLen)
+        while (totalBytesSent < (long)m_serverMsg.size())
         {
-            bytesSent = send(m_clientSocket, m_serverMsg, m_serverMsgLen, 0);
+            bytesSent = send(m_clientSocket, m_serverMsg.c_str(), m_serverMsg.size(), 0);
             if (bytesSent < 0)
             {
                 break;
             }
             totalBytesSent += bytesSent;
         }
-
-        printf("%s:%d\n", inet_ntoa(m_socketAddr.sin_addr), ntohs(m_socketAddr.sin_port));
 
         closesocket(m_clientSocket);
     }

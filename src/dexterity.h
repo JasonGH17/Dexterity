@@ -1,6 +1,6 @@
 #pragma once
 
-#include "server/tcp_server.h"
+#include "server/http_server.h"
 
 namespace Dexterity
 {
@@ -11,6 +11,6 @@ namespace Dexterity
         ~Application();
 
     private:
-        Server::TCPServer m_tcp;
+        Server::HTTPServer m_http;
     };
 }
