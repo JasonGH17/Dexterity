@@ -21,7 +21,7 @@ namespace Dexterity::Server
             m_keys = keys;
         }
 
-        virtual void respond(std::string request);
+        virtual std::string respond(std::string request);
 
     private:
         std::unordered_map<std::string, HTTPController*> *m_controllers;

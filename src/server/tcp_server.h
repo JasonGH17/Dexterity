@@ -10,6 +10,8 @@
 
 #include <string>
 
+#include "threading/thread_pool.h"
+
 namespace Dexterity::Server
 {
     class TCPServer
@@ -20,12 +22,10 @@ namespace Dexterity::Server
 
         void start();
 
-    protected:
-        void setServerMessage(std::string msg);
-
     private:
         void acceptConnection();
-        virtual void respond(std::string request) = 0;
+        virtual std::string respond(std::string request) = 0;
+        void serverJob(int socket);
 
     private:
         const char *m_hostname;
@@ -33,7 +33,8 @@ namespace Dexterity::Server
         long m_incomingMsg;
         struct sockaddr_in m_socketAddr;
         int m_socketAddrLen;
-        std::string m_serverMsg;
+
+        Threading::ThreadPool m_tp;
 
 #ifdef _WIN32
         // Windows members

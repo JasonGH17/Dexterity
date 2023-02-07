@@ -13,7 +13,7 @@ namespace Dexterity::Server
     HTTPServer::HTTPServer(const char *hostname, int port) : TCPServer(hostname, port) {}
     HTTPServer::~HTTPServer() {}
 
-    void HTTPServer::respond(std::string request)
+    std::string HTTPServer::respond(std::string request)
     {
         HTTPRequest req = HTTPRequest::deserialize(request);
         HTTPResponse res = {404, std::vector<HTTPHeader>(0), ""};
@@ -27,6 +27,6 @@ namespace Dexterity::Server
             }
         }
 
-        setServerMessage(res.serialize());
+        return res.serialize();
     }
 } // namespace Dexterity::Server

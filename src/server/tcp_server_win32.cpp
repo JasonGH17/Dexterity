@@ -52,7 +52,7 @@ namespace Dexterity::Server
 
         while (true)
         {
-            acceptConnection();
+            m_tp.jobs()->queue(std::bind(&TCPServer::acceptConnection, this);
         }
     }
 

@@ -2,6 +2,7 @@
 
 Web Application Framework made in C++
 
-## Platform Support
+Features:
 
-Developing for Windows platforms first then adding support for Unix based platforms.
+- Controllers
+- Threading
