@@ -20,7 +20,7 @@ namespace Dexterity::Server
         {
             HTTPRequest out = {};
 
-            if (req == "")
+            if (req.length() < 32)
                 return out;
 
             std::stringstream stream(req);

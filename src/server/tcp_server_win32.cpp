@@ -15,7 +15,7 @@ namespace Dexterity::Server
         }
 
         m_socket = socket(AF_INET, SOCK_STREAM, 0);
-        if (m_socket < 0)
+        if (m_socket == INVALID_SOCKET)
         {
             fprintf(stderr, "[TCP Sever] Unable to start server: \"socket\" function call failed...\nWSA Error Code: %d\n", WSAGetLastError());
             exit(1);
@@ -64,7 +64,7 @@ namespace Dexterity::Server
     void TCPServer::acceptConnection()
     {
         m_clientSocket = accept(m_socket, (sockaddr *)&m_socketAddr, &m_socketAddrLen);
-        if (m_clientSocket < 0)
+        if (m_clientSocket == INVALID_SOCKET)
         {
             fprintf(stderr, "[TCP Server] Failed to accept request from address %s:%d\n", inet_ntoa(m_socketAddr.sin_addr), ntohs(m_socketAddr.sin_port));
         }

@@ -1,7 +1,21 @@
-example1: bin/example1.exe
-	cp ../lib/dexterity.dll bin/dexterity.dll
-	cp ../lib/http_utils.lib bin/http_utils.lib
-	./bin/example1.exe
+CC = g++
+STD = -std=c++17
+CFLAGS = -Wall -Werror -Wextra -pedantic -g 
+INCLUDE = -I../src
+LINK = -L../lib -ldexterity
 
-bin/example1.exe: example1.cpp 
-	g++ -g -o bin/example1.exe example1.cpp -L../lib -ldexterity -I../src
+ifeq ($(OS),Windows_NT)
+	PROG = example1.exe
+	LIB = dexterity.dll
+	WL =
+else 
+	PROG = example1
+	LIB = libdexterity.so
+	WL = -Wl,-rpath=.
+endif
+
+example1: bin/$(PROG)
+	cp ../lib/$(LIB) bin/$(LIB)
+
+bin/$(PROG): example1.cpp 
+	$(CC) $(STD) $(CFLAGS) -o bin/$(PROG) example1.cpp $(LINK) $(INCLUDE) $(WL)

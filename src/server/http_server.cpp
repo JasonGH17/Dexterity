@@ -1,46 +1,31 @@
 #include "http_server.h"
 
+#include <functional>
+#include <algorithm>
+
 #include "util/http_header.h"
 #include "util/http_request.h"
 #include "util/http_response.h"
+#include "http_controller.h"
 
 namespace Dexterity::Server
 {
-    HTTPServer::HTTPServer(const char *hostname, int port) : TCPServer(hostname, port)
-    {
-        start();
-    }
+    HTTPServer::HTTPServer(const char *hostname, int port) : TCPServer(hostname, port) {}
     HTTPServer::~HTTPServer() {}
 
     void HTTPServer::respond(std::string request)
     {
         HTTPRequest req = HTTPRequest::deserialize(request);
+        HTTPResponse res = {404, std::vector<HTTPHeader>(0), ""};
 
-        std::vector<HTTPHeader>
-            headers;
-        headers.push_back({"Content-Type", "text/html"});
-
-        std::string msg;
-        if (req.url == "/")
+        for (std::string path : *m_keys)
         {
-            headers.push_back({"Content-Length", "24"});
-            msg = "<h1>C++ HTTP Server</h1>";
+            if (req.url.find(path) == 0)
+            {
+                HTTPController *controller = (*m_controllers)[path];
+                controller->handleRequest(&req, &res);
+            }
         }
-        else if (req.url == "/hello")
-        {
-            headers.push_back({"Content-Length", "17"});
-            msg = "<h1>Hello :)</h1>";
-        }
-        else
-        {
-            headers.push_back({"Content-Length", "22"});
-            msg = "<h1>Invalid route</h1>";
-        }
-
-        HTTPResponse res = HTTPResponse{
-            200,
-            headers,
-            msg};
 
         setServerMessage(res.serialize());
     }

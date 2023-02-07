@@ -11,14 +11,11 @@
 			"problemMatcher": [
 				"$gcc"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"group": "build"
 		},
 		{
 			"type": "shell",
-			"label": "Build & Run Example1 Executable",
+			"label": "Build Example1 Executable",
 			"command": "make",
 			"args": [
 				"example1"
@@ -29,13 +26,36 @@
 			"problemMatcher": [
 				"$gcc"
 			],
+			"group": "build"
+		},
+		{
+			"type": "shell",
+			"label": "Build & Run Example1 Executable",
+			"command": "example1.exe",
+			"options": {
+				"cwd": "${workspaceFolder}/examples/bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "test",
+			"dependsOn": [
+				"Build Library",
+				"Build Example1 Executable"
+			],
+			"dependsOrder": "sequence"
+		},
+		{
+			"label": "Build All",
+			"dependsOn": [
+				"Build Library",
+				"Build Example1 Executable"
+			],
+			"dependsOrder": "sequence",
 			"group": {
-				"kind": "test",
+				"kind": "build",
 				"isDefault": true
 			},
-			"dependsOn": [
-				"Build Library"
-			]
 		}
 	]
 }
