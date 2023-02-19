@@ -52,13 +52,8 @@ namespace Dexterity::Server
 
         while (true)
         {
-            m_tp.jobs()->queue(std::bind(&TCPServer::acceptConnection, this);
+            acceptConnection();
         }
-    }
-
-    void TCPServer::setServerMessage(std::string msg)
-    {
-        m_serverMsg = msg;
     }
 
     void TCPServer::acceptConnection()
@@ -69,20 +64,25 @@ namespace Dexterity::Server
             fprintf(stderr, "[TCP Server] Failed to accept request from address %s:%d\n", inet_ntoa(m_socketAddr.sin_addr), ntohs(m_socketAddr.sin_port));
         }
 
+        m_tp.jobs()->queue(std::bind(&TCPServer::serverJob, this, m_clientSocket));
+    }
+
+    void TCPServer::serverJob(SOCKET socket)
+    {
         char buff[1024] = {0};
-        int nRecv = recv(m_clientSocket, buff, 1024, 0);
+        int nRecv = recv(socket, buff, 1024, 0);
         if (nRecv < 0)
         {
             fprintf(stderr, "[TCP Server] Something went wrong while recieving a request...\n");
         }
 
-        respond(buff);
+        std::string serverMsg = respond(buff);
 
         int bytesSent;
         long totalBytesSent = 0;
-        while (totalBytesSent < (long)m_serverMsg.size())
+        while (totalBytesSent < (long)serverMsg.size())
         {
-            bytesSent = send(m_clientSocket, m_serverMsg.c_str(), m_serverMsg.size(), 0);
+            bytesSent = send(socket, serverMsg.c_str(), serverMsg.size(), 0);
             if (bytesSent < 0)
             {
                 break;
@@ -90,7 +90,7 @@ namespace Dexterity::Server
             totalBytesSent += bytesSent;
         }
 
-        closesocket(m_clientSocket);
+        closesocket(socket);
     }
 } // namespace Dexterity::Server
 

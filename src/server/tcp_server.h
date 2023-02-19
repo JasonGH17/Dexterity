@@ -25,7 +25,12 @@ namespace Dexterity::Server
     private:
         void acceptConnection();
         virtual std::string respond(std::string request) = 0;
+
+#ifdef _WIN32
+        void serverJob(SOCKET socket);
+#else
         void serverJob(int socket);
+#endif
 
     private:
         const char *m_hostname;
